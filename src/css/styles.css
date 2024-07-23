@@ -1,25 +1,201 @@
-/**
-  |============================
-  | include css partials with
-  | default @import url()
-  |============================
-*/
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('./reset.css');
-@import url('./vite-promo.css');
-@import url('./header.css');
+@import url('./gallery.css');
 
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Montserrat, Helvetica, Arial, sans-serif;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 1.5;
   font-weight: 400;
-
-  color: #242424;
-  background-color: rgba(255, 255, 255, 0.87);
-
+  color: #2e2f42;
+  background-color: #ffffff;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  --white: #ffffff;
+  --primary: #4e75ff;
+  --primary-hover: #6c8cff;
+  --disabled: #CFCFCF;
+  --disabled-text: #989898;
+  --text: #2e2f42;
+  --input-border-color: #808080;
+  --input-border-hover-color: #000000;
+  --transition-property: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none outside none;
+}
+
+button {
+  cursor: pointer;
+  outline: none;
+}
+
+input,
+button {
+  font-size: inherit;
+  font-family: inherit;
+}
+
+body {
+  padding: 36px;
+  margin: 0;
+  font-family: 'Montserrat', 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  color: var(--text);
+}
+
+.container {
+  max-width: 1176px;
+  min-width: 320px;
+  padding: 0 24px;
+  margin: 0 auto;
+}
+
+a:hover,
+a:focus {
+  color: var(--primary);
+}
+
+.align-center {
+  text-align: center;
+}
+
+.button {
+  font-weight: 500;
+  background-color: var(--primary);
+  padding: 8px 16px;
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  min-width: 95px;
+  height: 40px;
+  color: var(--white);
+  transition: color var(--transition-property),
+    background-color var(--transition-property),
+    border-color var(--transition-property);
+}
+
+.button:disabled {
+  background-color: var(--disabled);
+  border: 1px solid var(--disabled);
+  color: var(--disabled-text);
+}
+
+.button:hover,
+.button:focus {
+  background-color: var(--primary-hover);
+  border: 1px solid var(--primary-hover);
+}
+
+.button:disabled:hover,
+.button:disabled:focus {
+  background-color: var(--disabled);
+  border: 1px solid var(--disabled);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form.--inline {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.form label {
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.form fieldset {
+  border: 1px solid #808080;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+}
+
+.form-field {
+  padding: 8px 8px 8px 16px;
+  border: 1px solid var(--input-border-color);
+  transition: border-color var(--transition-property);
+  border-radius: 4px;
+  width: 100%;
+  color: var(--text);
+  outline: none;
+  border-radius: 4px;
+}
+
+input.form-field {
+  height: 40px;
+}
+
+.form-field:hover {
+  border-color: var(--input-border-hover-color);
+}
+
+.form-field:focus {
+  border-color: var(--input-border-color);
+}
+
+.form-field:focus {
+  border-color: var(--primary);
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+header nav ul {
+  display: flex;
+  gap: 8px;
+}
+
+header nav ul li {
+  padding: 4px;
+}
+
+header nav ul li.active {
+  color: var(--primary);
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid var(--primary);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: none;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  margin: 0 auto;
+}
+
+.show {
+  display: block;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
