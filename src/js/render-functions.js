@@ -1,6 +1,7 @@
 import 'izitoast/dist/css/iziToast.min.css';
 import SimpleLightbox from 'simplelightbox';
-import { showNotification } from './notifications';
+
+const gallery = document.querySelector('.gallery');
 
 const simpleLightbox = new SimpleLightbox('.gallery a', {
   captions: true,
@@ -8,6 +9,11 @@ const simpleLightbox = new SimpleLightbox('.gallery a', {
   captionDelay: 250,
   className: 'simple-lightbox',
 });
+
+const scrollBy = (numberOfRows = 2) => {
+  const { height } = gallery.lastElementChild.getBoundingClientRect();
+  window.scrollBy({ top: height * numberOfRows, behavior: 'smooth' });
+};
 
 const addFooter = ({ views, comments, downloads, likes }) => {
   return `
@@ -20,21 +26,12 @@ const addFooter = ({ views, comments, downloads, likes }) => {
   `;
 };
 
-export const resetImages = (selector = '.gallery') => {
-  const gallery = document.querySelector(selector);
+export const resetImages = () => {
   gallery.textContent = '';
 };
 
-export const addImages = (images, selector = '.gallery') => {
-  const gallery = document.querySelector(selector);
-
-  if (images.length === 0) {
-    showNotification(
-      'Sorry, there are no images matching your search query. Please try again!'
-    );
-
-    return;
-  }
+export const addImages = (images, options = { shouldScroll: true }) => {
+  const { shouldScroll } = options;
 
   const adjacentImages = images
     .map(
@@ -57,6 +54,7 @@ export const addImages = (images, selector = '.gallery') => {
   gallery.insertAdjacentHTML('beforeend', adjacentImages);
   simpleLightbox.refresh();
 
-  const { height } = gallery.firstElementChild.getBoundingClientRect();
-  window.scrollBy({ top: height * 2, behavior: 'smooth' });
+  if (shouldScroll) {
+    scrollBy();
+  }
 };

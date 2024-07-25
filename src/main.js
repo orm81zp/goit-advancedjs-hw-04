@@ -35,41 +35,48 @@ const search = async (options = { shouldReset: true }) => {
   const { page, totalPages, per_page } = state;
   const { shouldReset } = options;
 
+  showLoadMoreButton(false);
+
   // checking if search query is empty
   if (!searchQuery) {
     showNotification('The search query cannot be empty');
-    showLoadMoreButton(false);
-    return;
-  }
-
-  // checking if the current page is bigger than number of total pages
-  if (page > totalPages) {
-    showNotification(
-      "We're sorry, but you've reached the end of search results."
-    );
-    showLoadMoreButton(false);
     return;
   }
 
   try {
-    // checking if the gallery should be cleaned
+    // checking if the gallery should be cleaned before fetching
     if (shouldReset) {
       resetImages();
     }
 
-    showLoadMoreButton(false);
     showLoader();
     const { hits, totalHits } = await SearchImageApi.search(searchQuery, {
       page,
       per_page,
     });
+
+    // checking for empty response from api
+    if (hits.length === 0) {
+      showNotification(
+        'Sorry, there are no images matching your search query. Please try again!'
+      );
+      return;
+    }
+
     state.totalPages = Math.ceil(totalHits / per_page);
-    addImages(hits);
+    addImages(hits, { shouldScroll: !shouldReset });
     ++state.page;
 
-    // show the load more button if there are more than 1 page in total
-    if (state.totalPages > 1) {
+    // checking if the load more button should be shown
+    if (state.totalPages > page) {
       showLoadMoreButton();
+    }
+
+    // checking if the end of search results has been reached
+    if (state.page > state.totalPages) {
+      showNotification(
+        "We're sorry, but you've reached the end of search results."
+      );
     }
   } catch (error) {
     console.log(error);
